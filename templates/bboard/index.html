@@ -1,0 +1,21 @@
+{% extends "bboard/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bboard</title>
+</head>
+<body>
+<h1>Объявления</h1>
+{% block content %}
+{% for bb in bbs %}
+    <div>
+        <h2>{{ bb.title }}</h2>
+        <p>{{ bb.description }}</p>
+        <p><a href="{% url "by_rubric" bb.rubric.pk %}">{{ bb.rubric.rubric_name }}</a></p>
+        <p>{{ bb.was_published|date:"d.m.Y H:i:s" }}</p>
+    </div>
+{% endfor %}
+{% endblock %}
+</body>
+</html>
