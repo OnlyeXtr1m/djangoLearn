@@ -4,12 +4,19 @@ from .models import Rubric
 from django.views.generic.edit import CreateView
 from .forms import BbForm
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
 
 
 def index(request):
     bbs = Bb.objects.all()
     rubrics = Rubric.objects.all()
-    context = {"bbs": bbs, "rubrics": rubrics}
+    paginator = Paginator(bbs, 8)
+    if "page" in request.GET:
+        page_num = request.GET["page"]
+    else:
+        page_num = 1
+    page = paginator.get_page(page_num)
+    context = {"bbs": page.object_list, "rubrics": rubrics, "page": page}
     return render(request, "bboard/index.html", context)
 
 
